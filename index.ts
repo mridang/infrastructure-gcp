@@ -4,6 +4,7 @@ import * as path from "path";
 import * as fs from "fs";
 import * as zip from "zip-a-folder";
 import * as docker from "@pulumi/docker";
+import * as cloudflare from "@pulumi/cloudflare";
 
 
 // 1. Create a GCP Storage Bucket to store the function source code
@@ -129,6 +130,34 @@ const publicAccess = new gcp.cloudrunv2.ServiceIamMember("public-access", {
 	role: "roles/run.invoker",  // Role for invoker (public access)
 	member: "allUsers",  // This grants access to everyone
 });
+
+const domainMapping = new gcp.cloudrun.DomainMapping("my-domain-mapping", {
+	location: region,
+	name: "gcp.mrida.ng",
+	metadata: {
+		namespace: cloudFunction.project,
+	},
+	spec: {
+		routeName: cloudRunService.name,  // The name of the Cloud Run service
+	},
+});
+
+const zoneName = "mrida.ng";
+
+const zone = cloudflare.getZone({ name: zoneName }).then(zone => zone.id);
+
+
+// Add a CNAME record for a subdomain like "app.mrida.nfg"
+cloudRunService.uri.apply(uri => {
+	new cloudflare.Record("cloud-run-cname", {
+		zoneId: zone,
+		name: "gcp",
+		type: "CNAME",
+		content: 'ghs.googlehosted.com.',
+		proxied: true, // Enable Cloudflare proxy
+	});
+})
+
 // Export the function URL for testing
 export const url = cloudRunService.uri
 export const functionUrl = cloudFunction.httpsTriggerUrl;

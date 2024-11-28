@@ -7,6 +7,7 @@
     "build": "tsc"
   },
   "devDependencies": {
+    "@pulumi/cloudflare": "^5.43.1",
     "@pulumi/docker": "^4.5.7",
     "@pulumi/gcp": "^8.10.0",
     "@pulumi/pulumi": "^3.141.0",

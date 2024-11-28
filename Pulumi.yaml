@@ -1,3 +1,6 @@
 name: sampleapp
 runtime: nodejs
 description: A simple Pulumi project
+config:
+    cloudflare:apiToken:
+        value: 'I0iLQoEebnXqGqDQxX6CZcIUEiDgOUUDovNxWySZ'
