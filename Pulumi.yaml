@@ -1,0 +1,3 @@
+name: sampleapp
+runtime: nodejs
+description: A simple Pulumi project

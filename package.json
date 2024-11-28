@@ -1,0 +1,23 @@
+{
+  "name": "example-gcp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@pulumi/docker": "^4.5.7",
+    "@pulumi/gcp": "^8.10.0",
+    "@pulumi/pulumi": "^3.141.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.5.3",
+    "zip-a-folder": "^3.1.8"
+  },
+  "private": true,
+  "dependencies": {
+    "@google-cloud/logging": "^11.2.0",
+    "@google-cloud/logging-winston": "^6.0.0",
+    "express": "^4.21.1"
+  }
+}

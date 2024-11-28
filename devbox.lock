@@ -1,0 +1,166 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "google-cloud-sdk@latest": {
+      "last_modified": "2024-11-22T01:27:12Z",
+      "resolved": "github:NixOS/nixpkgs/8edf06bea5bcbee082df1b7369ff973b91618b8d#google-cloud-sdk",
+      "source": "devbox-search",
+      "version": "501.0.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/8wq5wd1qkis3q44gvl91kdrbvmcx5rjc-google-cloud-sdk-501.0.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/8wq5wd1qkis3q44gvl91kdrbvmcx5rjc-google-cloud-sdk-501.0.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/bpdjikf06vw6q6pva89gfrnak4i9qbkd-google-cloud-sdk-501.0.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/bpdjikf06vw6q6pva89gfrnak4i9qbkd-google-cloud-sdk-501.0.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jimm2rhh182spr2vz60k6wiqq9jwf7cr-google-cloud-sdk-501.0.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/jimm2rhh182spr2vz60k6wiqq9jwf7cr-google-cloud-sdk-501.0.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/qary2z3z06wf56aqhirxq39scz8rw0kh-google-cloud-sdk-501.0.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/qary2z3z06wf56aqhirxq39scz8rw0kh-google-cloud-sdk-501.0.0"
+        }
+      }
+    },
+    "nodejs@20": {
+      "last_modified": "2024-11-16T04:25:12Z",
+      "plugin_version": "0.0.2",
+      "resolved": "github:NixOS/nixpkgs/34a626458d686f1b58139620a8b2793e9e123bba#nodejs_20",
+      "source": "devbox-search",
+      "version": "20.18.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/9grahx8677nlgbx3yfiggibw335lkgfr-nodejs-20.18.0",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/hfchgw1as9fm02wcyr3iqya05ylll5f3-nodejs-20.18.0-libv8"
+            }
+          ],
+          "store_path": "/nix/store/9grahx8677nlgbx3yfiggibw335lkgfr-nodejs-20.18.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/hsh74yzdb9yk834w9j5qz0w3sw84wcfv-nodejs-20.18.0",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/yajvza262cb3bri9cryfrgpm3pvc066n-nodejs-20.18.0-libv8"
+            }
+          ],
+          "store_path": "/nix/store/hsh74yzdb9yk834w9j5qz0w3sw84wcfv-nodejs-20.18.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/v8p36abnvrn9i5h41zkgrayaj7sclv6z-nodejs-20.18.0",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/93xdzgjsm1dnnw33lnba4i7h7k5yph4k-nodejs-20.18.0-libv8"
+            }
+          ],
+          "store_path": "/nix/store/v8p36abnvrn9i5h41zkgrayaj7sclv6z-nodejs-20.18.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/z0ivg3dbal4sk5h0c7p1pfkxc7ff98ri-nodejs-20.18.0",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/czcxwki3zqih2pf355zk0vxbmrij2bzx-nodejs-20.18.0-libv8"
+            }
+          ],
+          "store_path": "/nix/store/z0ivg3dbal4sk5h0c7p1pfkxc7ff98ri-nodejs-20.18.0"
+        }
+      }
+    },
+    "pulumi-bin@latest": {
+      "last_modified": "2024-11-16T04:25:12Z",
+      "resolved": "github:NixOS/nixpkgs/34a626458d686f1b58139620a8b2793e9e123bba#pulumi-bin",
+      "source": "devbox-search",
+      "version": "3.138.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/fahfxrm8m259bimp5nf326cfaxr41vgp-pulumi-3.138.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/fahfxrm8m259bimp5nf326cfaxr41vgp-pulumi-3.138.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/vhy43i8fm8c4gxbglffa7qdrjd0845xy-pulumi-3.138.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/vhy43i8fm8c4gxbglffa7qdrjd0845xy-pulumi-3.138.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/q81nqwphad1c5c51431ydkrwgqn3bdg8-pulumi-3.138.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/q81nqwphad1c5c51431ydkrwgqn3bdg8-pulumi-3.138.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/198nxwll988a0a0n2jqa6p8w60n2g4g9-pulumi-3.138.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/198nxwll988a0a0n2jqa6p8w60n2g4g9-pulumi-3.138.0"
+        }
+      }
+    }
+  }
+}

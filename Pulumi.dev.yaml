@@ -1,0 +1,3 @@
+config:
+  gcp:project: mridang-playground
+  gcp:region: us-central1
