@@ -4,8 +4,8 @@ import * as path from "path";
 import * as zip from "zip-a-folder";
 import * as docker from "@pulumi/docker";
 import * as cloudflare from "@pulumi/cloudflare";
-import {defaultVPC} from './vpc';
-import {argoTunnel} from './instances'
+import {defaultVPC} from './src/vpc';
+import {argoTunnel} from './src/instances'
 
 // 1. Create a GCP Storage Bucket to store the function source code
 const functionBucket = new gcp.storage.Bucket("function-code-bucket", {
