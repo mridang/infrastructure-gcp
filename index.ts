@@ -1,11 +1,11 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as gcp from "@pulumi/gcp";
 import * as path from "path";
-import * as fs from "fs";
 import * as zip from "zip-a-folder";
 import * as docker from "@pulumi/docker";
 import * as cloudflare from "@pulumi/cloudflare";
-
+import {defaultVPC} from './vpc';
+import {argoTunnel} from './instances'
 
 // 1. Create a GCP Storage Bucket to store the function source code
 const functionBucket = new gcp.storage.Bucket("function-code-bucket", {
@@ -161,3 +161,5 @@ cloudRunService.uri.apply(uri => {
 // Export the function URL for testing
 export const url = cloudRunService.uri
 export const functionUrl = cloudFunction.httpsTriggerUrl;
+export const  vpcid = defaultVPC
+export const argoTunne = argoTunnel
