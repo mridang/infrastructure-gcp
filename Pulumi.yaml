@@ -1,6 +1,7 @@
 name: sampleapp
 runtime: nodejs
 description: A simple Pulumi project
+main: index.ts
 config:
     cf:accountId: '779037e608ab1102679ef8b1bd499d49'
     cf:zoneId: 'f228d4a3ac2098180cd3607dee33e947'
