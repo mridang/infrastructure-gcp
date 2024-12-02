@@ -21,6 +21,10 @@ app.get('/env', (req, res) => {
 	res.json(process.env);
 });
 
+app.get('/crash', (req, res) => {
+	throw new Error('Intentional crash for testing error logging!');
+});
+
 // Basic Health check route
 app.get('/health', (req, res) => {
 	res.send('Healthy');
