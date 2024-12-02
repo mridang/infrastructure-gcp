@@ -30,6 +30,33 @@ app.get('/health', (req, res) => {
 	res.send('Healthy');
 });
 
+app.get('/connectivity', async (req, res) => {
+	const urls = [
+		'https://networkcheck.kde.org/',
+		'https://nmcheck.gnome.org/check_network_status.txt',
+		'http://www.msftconnecttest.com/connecttest.txt',
+		'http://www.msftncsi.com/ncsi.txt',
+		'http://clients3.google.com/generate_204',
+		'http://connectivitycheck.gstatic.com/generate_204',
+		'https://www.apple.com/library/test/success.html',
+		'https://captive.apple.com/hotspot-detect.html',
+	];
+
+	const url = urls[Math.floor(Math.random() * urls.length)];
+
+	try {
+		const response = await fetch(url);
+		const headers = [...response.headers.entries()]
+			.map(([key, value]) => `${key}: ${value}`)
+			.join('\n');
+		const body = await response.text();
+
+		return `URL: ${url}\nHeaders:\n${headers}\nResponse:\n${body}`;
+	} catch {
+		throw new Error();
+	}
+})
+
 // Start the server
 app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
