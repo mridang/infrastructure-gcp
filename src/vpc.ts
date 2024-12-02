@@ -25,4 +25,4 @@ const cloudNat = new gcp.compute.RouterNat("my-cloud-nat", {
 });
 
 export const defaultSubnet = subnet
-export const defaultVPC = vpc.id
+export const defaultVPC = vpc

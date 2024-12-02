@@ -29,7 +29,11 @@ const cloudflareTunnel = new cloudflare.ZeroTrustTunnelCloudflared("gcp", {
 	protect: true // Prevent regeneration of secret on every update
 });
 
-const tunnelConfig = new cloudflare.ZeroTrustTunnelCloudflaredConfig("gcp-config", {
+/**
+ * This creates the tunnel configuration since we want to manage the tunnel
+ * configuration from Pulumi rather than via the YAML
+ */
+new cloudflare.ZeroTrustTunnelCloudflaredConfig("gcp-config", {
 	accountId: config.require("accountId"),
 	tunnelId: cloudflareTunnel.id,
 	config: {
@@ -51,6 +55,9 @@ const tunnelConfig = new cloudflare.ZeroTrustTunnelCloudflaredConfig("gcp-config
 	},
 });
 
+/**
+ * The secret for the cloudflare tunnel is stored in secrets manager
+ */
 const secret = new gcp.secretmanager.Secret("cloudflare-tunnel-secret", {
 	secretId: "cloudflare-tunnel-secret-id",
 	replication: {
@@ -61,7 +68,9 @@ const secret = new gcp.secretmanager.Secret("cloudflare-tunnel-secret", {
 	},
 });
 
-// Create the first version of the secret with the generated random password
+/**
+ * The stored secret is never rotated and must be rotated manually.
+ */
 const cfToken = new gcp.secretmanager.SecretVersion("cloudflare-tunnel-secret-version", {
 	secret: secret.id,
 	secretData: cloudflareTunnel.tunnelToken,
@@ -70,11 +79,13 @@ const cfToken = new gcp.secretmanager.SecretVersion("cloudflare-tunnel-secret-ve
 });
 
 /**
- * A single instance is used to ensure that the
+ * A single instance is used as bastion to run the Cloudflare daemon. For this
+ * setup, a single instance will suffice, and therefore we always create it in zone
+ * "a" of the default subnet.
  */
 const vm = new gcp.compute.Instance("etc-cloudflare", {
 	machineType: "f1-micro", // Free-tier eligible instance type
-	zone: "us-central1-a", // Choose a zone in the same region as the subnet
+	zone:  pulumi.interpolate`${defaultSubnet.region}-a`,
 	bootDisk: {
 		initializeParams: {
 			image: "debian-cloud/debian-11", // Lightweight OS image
