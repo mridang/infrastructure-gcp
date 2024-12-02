@@ -18,4 +18,4 @@ EXPOSE 8080
 ENV NODE_ENV=production
 
 # Define the command to run your app
-CMD ["node", "--experimental-strip-types", "src/services/express.ts"]
+CMD ["node", "--no-warnings", "--experimental-strip-types", "src/services/express.ts"]
