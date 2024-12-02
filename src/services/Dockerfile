@@ -5,11 +5,11 @@ FROM node:22
 WORKDIR /app
 
 # Copy the package.json and install dependencies
-COPY package.json package-lock.json ./
+COPY ../../package.json package-lock.json ./
 RUN npm install
 
 # Copy the source code into the container
-COPY . .
+COPY ../.. .
 
 # Expose port
 EXPOSE 8080

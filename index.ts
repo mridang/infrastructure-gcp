@@ -2,11 +2,10 @@ import * as pulumi from "@pulumi/pulumi";
 import * as gcp from "@pulumi/gcp";
 import * as path from "path";
 import * as zip from "zip-a-folder";
-import * as docker from "@pulumi/docker";
-import * as cloudflare from "@pulumi/cloudflare";
 import {defaultVPC} from './src/vpc';
 import {argoTunnel} from './src/instances'
 import './src/billing'
+import {serviceUri} from './src/services/mycontainer'
 
 // 1. Create a GCP Storage Bucket to store the function source code
 const functionBucket = new gcp.storage.Bucket("function-code-bucket", {
@@ -52,115 +51,9 @@ const functionInvokerBinding = new gcp.cloudfunctions.FunctionIamMember("helloWo
 	member: "allUsers",
 });
 
-const artifactRegistry = new gcp.artifactregistry.Repository("nodejs-repo", {
-	location: region,
-	format: "DOCKER",
-	repositoryId: "nodejs-repo", // Choose a suitable name for your repo
-});
-
-const image = new docker.Image("my-node-app", {
-	build: {
-		platform: "linux/amd64",  // Specify the correct platform
-		context: "./",               // Path to the directory containing your Dockerfile
-		dockerfile: "./Dockerfile",  // Dockerfile path (if different from the default)
-	},
-	imageName: pulumi.interpolate`${artifactRegistry.location}-docker.pkg.dev/${artifactRegistry.project}/${artifactRegistry.name}/my-node-app:latest`,
-	skipPush: false,  // Push the image to the registry
-})
-
-const serviceAccount = new gcp.serviceaccount.Account("cloud-run-sa", {
-	accountId: "cloud-run-sa",
-	displayName: "Cloud Run Service Account",
-});
-
-// Grant Logging permissions to the service account
-const serviceAccountLoggingBinding = new gcp.projects.IAMBinding("logging-binding", {
-	project: cloudFunction.project,
-	role: "roles/logging.logWriter", // Grant permission to write logs
-	members: [
-		pulumi.interpolate`serviceAccount:${serviceAccount.email}`, // Correctly interpolate the Output<T>
-	], // Add the service account itself as a member
-});
-
-
-const cloudRunService = new gcp.cloudrunv2.Service("my-node-app-service", {
-	location: region,
-	template: {
-		serviceAccount: serviceAccount.email,
-		timeout: '60s',
-		scaling: { maxInstanceCount: 1, minInstanceCount: 0 },
-		containers: [{
-			image: image.imageName, // The built image URL from Artifact Registry
-			envs: [{ name: "NODE_ENV", value: "production" }],
-			resources: {
-				startupCpuBoost: true,
-				cpuIdle: true,  // This ensures CPU is allocated only when requests come in
-				limits: {
-					memory: "128Mi", // Memory limit
-				},
-			},
-		}],
-	},
-	ingress: "INGRESS_TRAFFIC_ALL", // Allow public access
-});
-
-const uptimeCheckConfig = cloudRunService.uri.apply(uri => {
-	new gcp.monitoring.UptimeCheckConfig("health-check", {
-		displayName: "Health Check for Cloud Run Service",
-		monitoredResource: {
-			type: "uptime_url",  // Type of the monitored resource
-			labels: {
-				host: new URL(uri).hostname
-			},
-		},
-		httpCheck: {
-			path: "/health",  // Endpoint to check
-			port: 443,  // Default HTTP port (Cloud Run uses 80)
-			requestMethod: "GET", // HTTP method
-			useSsl: true, // If the service uses HTTPS
-			validateSsl: false
-		},
-		period: "900s", // How often to run the check
-		timeout: "5s",  // Timeout for the check
-	})
-})
-
-const publicAccess = new gcp.cloudrunv2.ServiceIamMember("public-access", {
-	name: cloudRunService.name,  // Reference to the service
-	location: cloudRunService.location,
-	role: "roles/run.invoker",  // Role for invoker (public access)
-	member: "allUsers",  // This grants access to everyone
-});
-
-const domainMapping = new gcp.cloudrun.DomainMapping("my-domain-mapping", {
-	location: region,
-	name: "gcp.mrida.ng",
-	metadata: {
-		namespace: cloudFunction.project,
-	},
-	spec: {
-		routeName: cloudRunService.name,  // The name of the Cloud Run service
-	},
-});
-
-const zoneName = "mrida.ng";
-
-const zone = cloudflare.getZone({ name: zoneName }).then(zone => zone.id);
-
-
-// Add a CNAME record for a subdomain like "app.mrida.nfg"
-cloudRunService.uri.apply(uri => {
-	new cloudflare.Record("cloud-run-cname", {
-		zoneId: zone,
-		name: "gcp",
-		type: "CNAME",
-		content: 'ghs.googlehosted.com.',
-		proxied: true, // Enable Cloudflare proxy
-	});
-})
 
 // Export the function URL for testing
-export const url = cloudRunService.uri
+export const url = serviceUri
 export const functionUrl = cloudFunction.httpsTriggerUrl;
 export const  vpcid = defaultVPC
 export const argoTunne = argoTunnel

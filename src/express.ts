@@ -1,10 +1,23 @@
 import express from 'express';
+import {LoggingWinston} from "@google-cloud/logging-winston";
+import winston from "winston";
 
 const app = express();
 const port = process.env.PORT || 8080;
 
+const logger = winston.createLogger({
+	level: 'info',
+	transports: [
+		new LoggingWinston(),
+		new winston.transports.Console({
+			format: winston.format.simple(),
+		}),
+	],
+});
+
 // Route to print environment variables in JSON
-app.get('/env', (req, res) => {
+app.get('/envx', (req, res) => {
+	logger.info('Request made to /env route');
 	res.json(process.env);
 });
 
