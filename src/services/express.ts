@@ -16,7 +16,7 @@ const logger = winston.createLogger({
 });
 
 // Route to print environment variables in JSON
-app.get('/envx', (req, res) => {
+app.get('/env', (req, res) => {
 	logger.info('Request made to /env route');
 	res.json(process.env);
 });
