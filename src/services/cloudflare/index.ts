@@ -3,7 +3,7 @@ import * as random from "@pulumi/random";
 import * as cloudflare from "@pulumi/cloudflare";
 import * as pulumi from "@pulumi/pulumi";
 
-import {defaultSubnet} from "./vpc";
+import {defaultSubnet} from "../../vpc";
 
 const config = new pulumi.Config('cf');
 

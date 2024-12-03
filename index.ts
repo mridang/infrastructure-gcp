@@ -1,5 +1,5 @@
 import './src/vpc';
-import './src/instances'
+import './src/services/cloudflare'
 import './src/billing'
 import './src/logging'
-import './src/services/mycontainer'
+import './src/services/sample'

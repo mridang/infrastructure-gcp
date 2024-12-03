@@ -3,7 +3,7 @@ import * as docker from "@pulumi/docker";
 import * as pulumi from "@pulumi/pulumi";
 import * as cloudflare from "@pulumi/cloudflare";
 import * as path from "node:path";
-import {defaultRegion} from "../region";
+import {defaultRegion} from "../../region";
 
 const config = new pulumi.Config();
 
