@@ -7,4 +7,3 @@ config:
     cf:zoneId: 'f228d4a3ac2098180cd3607dee33e947'
     cloudflare:apiToken:
         value: 'I0iLQoEebnXqGqDQxX6CZcIUEiDgOUUDovNxWySZ'
-    custom:billingNotify: 'mridang.agarwalla@gmail.com'
