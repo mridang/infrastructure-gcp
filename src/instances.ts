@@ -110,7 +110,7 @@ rm /tmp/cloudflared-linux-amd64.deb
 sysctl -w net.ipv4.ping_group_range="0 429296729"
 
 # Run the tunnel with the token directly
-cloudflared tunnel --no-autoupdate run --token ${token}
+cloudflared tunnel --no-autoupdate --metrics=127.0.0.1:60123 run --token ${token}
 `),
 	networkInterfaces: [
 		{
