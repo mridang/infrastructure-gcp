@@ -1,6 +1,4 @@
 import * as gcp from "@pulumi/gcp";
-import * as pulumi from "@pulumi/pulumi";
-import * as outputs from "@pulumi/gcp/types/output";
 
 /**
  * Logging buckets are automatically created for a given folder, project,
