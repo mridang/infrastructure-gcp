@@ -109,6 +109,25 @@ rm /tmp/cloudflared-linux-amd64.deb
 # Allow the daemon to make ICMP requests
 sysctl -w net.ipv4.ping_group_range="0 429296729"
 
+# Configure the Ops Agent to scrape Prometheus metrics from cloudflared
+cat <<EOL | sudo tee /etc/google-cloud-ops-agent/config.yaml
+metrics:
+  receivers:
+    prometheus:
+      type: prometheus
+      config:
+        scrape_configs:
+          - job_name: 'cloudflared'
+            static_configs:
+              - targets: ['127.0.0.1:60123']
+  exporters:
+    google_cloud:
+      user_agent: google-cloud-ops-agent
+EOL
+
+# Restart the Ops Agent to apply the new config
+sudo systemctl restart google-cloud-ops-agent
+
 # Run the tunnel with the token directly
 cloudflared tunnel --no-autoupdate --metrics=127.0.0.1:60123 run --token ${token}
 `),
