@@ -94,6 +94,13 @@ const vm = new gcp.compute.Instance("etc-cloudflare", {
 	},
 	metadataStartupScript: cfToken.secretData.apply((token) => `
 #!/bin/bash
+
+export DEBIAN_FRONTEND=noninteractive
+
+# Install the Google Cloud Ops Agent
+curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh
+sudo bash add-google-cloud-ops-agent-repo.sh --also-install
+
 # Install cloudflared using the .deb package
 wget -nv -P /tmp/ https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
 sudo dpkg -i /tmp/cloudflared-linux-amd64.deb
