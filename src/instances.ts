@@ -84,6 +84,7 @@ const cfToken = new gcp.secretmanager.SecretVersion("cloudflare-tunnel-secret-ve
  * "a" of the default subnet.
  */
 const vm = new gcp.compute.Instance("etc-cloudflare", {
+	allowStoppingForUpdate: true,
 	machineType: "f1-micro", // Free-tier eligible instance type
 	zone:  pulumi.interpolate`${defaultSubnet.region}-a`,
 	bootDisk: {
