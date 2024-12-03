@@ -1,4 +1,5 @@
 import * as gcp from "@pulumi/gcp";
+import {defaultRegion} from "./region";
 
 /**
  * Create a single default VPC for the projects which spans a single region.
@@ -14,7 +15,7 @@ const vpc = new gcp.compute.Network("default-vpc", {
  */
 const subnet = new gcp.compute.Subnetwork("default-subnet", {
 	ipCidrRange: "10.0.0.0/24",
-	region: "us-central1",
+	region: defaultRegion,
 	network: vpc.id,
 	ipv6AccessType: "INTERNAL", // Internal IPv6 traffic only
 	stackType: "IPV4_IPV6", // Enables both IPv4 and IPv6
@@ -46,7 +47,7 @@ new gcp.compute.Firewall("allow-internal-ipv6", {
  * Create a Cloud Router (required for Cloud NAT).
  */
 const cloudRouter = new gcp.compute.Router("default-router", {
-	region: "us-central1",
+	region: defaultRegion,
 	network: vpc.id,
 });
 
@@ -58,7 +59,7 @@ const cloudRouter = new gcp.compute.Router("default-router", {
  */
 new gcp.compute.RouterNat("default-nat", {
 	router: cloudRouter.name,
-	region: "us-central1",
+	region: defaultRegion,
 	natIpAllocateOption: "AUTO_ONLY",
 	sourceSubnetworkIpRangesToNat: "ALL_SUBNETWORKS_ALL_IP_RANGES"
 });

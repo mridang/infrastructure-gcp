@@ -3,6 +3,7 @@ import * as docker from "@pulumi/docker";
 import * as pulumi from "@pulumi/pulumi";
 import * as cloudflare from "@pulumi/cloudflare";
 import * as path from "node:path";
+import {defaultRegion} from "../region";
 
 const config = new pulumi.Config();
 
@@ -10,7 +11,7 @@ const config = new pulumi.Config();
  * We create one registry per project where the containers will be pushed to.
  */
 const artifactRegistry = new gcp.artifactregistry.Repository("nodejs-repo", {
-	location: gcp.config.region || "us-central1",
+	location: defaultRegion,
 	format: "DOCKER",
 	repositoryId: "nodejs-repo",
 	dockerConfig: {
@@ -56,7 +57,7 @@ new gcp.projects.IAMBinding("logging-binding", {
 });
 
 const cloudRunService = new gcp.cloudrunv2.Service("my-node-app-service", {
-	location: gcp.config.region || "us-central1",
+	location: defaultRegion,
 	template: {
 		serviceAccount: serviceAccount.email,
 		timeout: '60s',
@@ -128,7 +129,7 @@ new gcp.cloudrunv2.ServiceIamMember("public-access", {
  * to the service.
  */
 new gcp.cloudrun.DomainMapping("my-domain-mapping", {
-	location: gcp.config.region || "us-central1",
+	location: defaultRegion,
 	name: "gcp.mrida.ng",
 	metadata: {
 		namespace: projectId,
