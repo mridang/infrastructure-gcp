@@ -138,6 +138,35 @@ new gcp.cloudrun.DomainMapping('my-domain-mapping', {
 });
 
 /**
+ * Add a page-rule exclusion to ensure that the ACME challenge goes through. The
+ * challenge works by providing a file that you need to make
+ * available under http://example.com/.well-known/acme-challenge/<filename>.
+ *
+ * LetsEncrypt will then try to download the file. If they find it, that serves
+ * as proof that you control that particular (sub)domain, and they will issue
+ * you a certificate for it.
+ *
+ * Cloudflare interferes in that process in many different ways, and you have
+ * to basically disable all Cloudflare features for that path.
+ */
+new cloudflare.PageRule("acme-challenge-bypass", {
+	zoneId: cloudflare
+		.getZone({
+			name: config.require('defaultZone'),
+		})
+		.then((zone) => zone.id),
+	target: `gcp.mrida.ng/.well-known/acme-challenge/*`,
+	priority: 1,
+	actions: {
+		ssl: "off",
+		automaticHttpsRewrites: "off",
+		browserCheck: "off",
+		cacheLevel: "bypass",
+		securityLevel: "essentially_off",
+	},
+});
+
+/**
  * To ensure that Cloudflare forwards all the traffic over to this service, we
  * create a CNAME record that points to the service.
  */
