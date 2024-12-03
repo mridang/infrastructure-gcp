@@ -1,4 +1,4 @@
-import * as gcp from "@pulumi/gcp";
+import * as gcp from '@pulumi/gcp';
 
 /**
  * Logging buckets are automatically created for a given folder, project,
@@ -12,11 +12,11 @@ import * as gcp from "@pulumi/gcp";
  *
  * By default, the logging retention is 30 days and log analytics are disabled
  */
-new gcp.logging.ProjectBucketConfig("basic", {
-	project: gcp.config.project || '',
-	location: "global",
-	retentionDays: 14,
-	enableAnalytics: true,
-	bucketId: "_Default",
-	description: "Default bucket for storing all the project-wide logs",
+new gcp.logging.ProjectBucketConfig('basic', {
+  project: gcp.config.project || '',
+  location: 'global',
+  retentionDays: 14,
+  enableAnalytics: true,
+  bucketId: '_Default',
+  description: 'Default bucket for storing all the project-wide logs',
 });

@@ -1,15 +1,18 @@
-import * as gcp from "@pulumi/gcp";
-import * as pulumi from "@pulumi/pulumi";
+import * as gcp from '@pulumi/gcp';
+import * as pulumi from '@pulumi/pulumi';
 
 const config = new pulumi.Config('custom');
 
-const notificationChannel = new gcp.monitoring.NotificationChannel("budget-alert-channel", {
-	displayName: "Budget Alert Channel",
-	type: "email",
-	labels: {
-		email_address: config.require('billingNotify')
-	},
-});
+const notificationChannel = new gcp.monitoring.NotificationChannel(
+  'budget-alert-channel',
+  {
+    displayName: 'Budget Alert Channel',
+    type: 'email',
+    labels: {
+      email_address: config.require('billingNotify'),
+    },
+  },
+);
 
 const project = gcp.organizations.getProject();
 
