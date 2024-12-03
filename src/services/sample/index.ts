@@ -23,15 +23,15 @@ const artifactRegistry = new gcp.artifactregistry.Repository("nodejs-repo", {
  * The image is built using the local Dockerfile and pushed to the remote
  * repository.
  */
-const image = new docker.Image("my-node-app", {
-	build: {
-		platform: "linux/amd64",
-		context: './',
-		dockerfile: path.resolve(__dirname, "./Dockerfile"),
-	},
-	imageName: pulumi.interpolate`${artifactRegistry.location}-docker.pkg.dev/${artifactRegistry.project}/${artifactRegistry.name}/my-node-app:latest`,
-	skipPush: false,
-})
+const image = new docker.Image('my-node-app', {
+  build: {
+    platform: 'linux/amd64',
+    context: __dirname,
+    dockerfile: path.resolve(__dirname, 'Dockerfile'),
+  },
+  imageName: pulumi.interpolate`${artifactRegistry.location}-docker.pkg.dev/${artifactRegistry.project}/${artifactRegistry.name}/my-node-app:latest`,
+  skipPush: false,
+});
 
 const serviceAccount = new gcp.serviceaccount.Account("cloud-run-sa", {
 	accountId: "cloud-run-sa",
