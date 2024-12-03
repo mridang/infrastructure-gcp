@@ -106,7 +106,9 @@ wget -nv -P /tmp/ https://github.com/cloudflare/cloudflared/releases/latest/down
 sudo dpkg -i /tmp/cloudflared-linux-amd64.deb
 rm /tmp/cloudflared-linux-amd64.deb
 
-echo "Using Cloudflare Tunnel token: ${token}"
+# Allow the daemon to make ICMP requests
+sysctl -w net.ipv4.ping_group_range="0 429296729"
+
 # Run the tunnel with the token directly
 cloudflared tunnel --no-autoupdate run --token ${token}
 `),
