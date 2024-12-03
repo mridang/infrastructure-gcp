@@ -52,8 +52,8 @@ app.get('/connectivity', async (req, res) => {
 		const body = await response.text();
 
 		res.send(`URL: ${url}\nHeaders:\n${headers}\nResponse:\n${body}`);
-	} catch(error: any) {
-		res.status(500).send({ error: `Failed to fetch from the URL: ${error.message}` });
+	} catch (error: any) {
+		res.status(500).send({error: `Failed to fetch from the URL: ${error.message}`});
 	}
 })
 
