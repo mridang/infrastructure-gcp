@@ -86,7 +86,7 @@ const cfToken = new gcp.secretmanager.SecretVersion("cloudflare-tunnel-secret-ve
 const vm = new gcp.compute.Instance("etc-cloudflare", {
 	allowStoppingForUpdate: true,
 	machineType: "f1-micro", // Free-tier eligible instance type
-	zone:  pulumi.interpolate`${defaultSubnet.region}-a`,
+	zone: pulumi.interpolate`${defaultSubnet.region}-a`,
 	bootDisk: {
 		initializeParams: {
 			image: "debian-cloud/debian-11", // Lightweight OS image
@@ -116,6 +116,15 @@ cloudflared tunnel --no-autoupdate run --token ${token}
 			accessConfigs: [], // No external IP, uses Cloud NAT for outbound connectivity
 		},
 	],
+	serviceAccount: {
+		email: "default",  // Default service account
+		scopes: [
+			"https://www.googleapis.com/auth/cloud-platform", // General access to Cloud APIs
+			"https://www.googleapis.com/auth/monitoring",     // Monitoring API access
+			"https://www.googleapis.com/auth/logging.write",  // Logging API access
+			"https://www.googleapis.com/auth/compute",        // Compute API access
+		],
+	},
 });
 
 export const argoTunnel = vm
