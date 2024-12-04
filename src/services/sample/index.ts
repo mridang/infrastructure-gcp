@@ -149,21 +149,21 @@ new gcp.cloudrun.DomainMapping('my-domain-mapping', {
  * Cloudflare interferes in that process in many different ways, and you have
  * to basically disable all Cloudflare features for that path.
  */
-new cloudflare.PageRule("acme-challenge-bypass", {
-	zoneId: cloudflare
-		.getZone({
-			name: config.require('defaultZone'),
-		})
-		.then((zone) => zone.id),
-	target: `gcp.mrida.ng/.well-known/acme-challenge/*`,
-	priority: 1,
-	actions: {
-		ssl: "off",
-		automaticHttpsRewrites: "off",
-		browserCheck: "off",
-		cacheLevel: "bypass",
-		securityLevel: "essentially_off",
-	},
+new cloudflare.PageRule('acme-challenge-bypass', {
+  zoneId: cloudflare
+    .getZone({
+      name: config.require('defaultZone'),
+    })
+    .then((zone) => zone.id),
+  target: `gcp.mrida.ng/.well-known/acme-challenge/*`,
+  priority: 1,
+  actions: {
+    ssl: 'off',
+    automaticHttpsRewrites: 'off',
+    browserCheck: 'off',
+    cacheLevel: 'bypass',
+    securityLevel: 'essentially_off',
+  },
 });
 
 /**

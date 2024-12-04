@@ -1,5 +1,5 @@
 import './vpc';
-import './cdn'
+import './cdn';
 import './services/cloudflare';
 import './billing';
 import './logging';
