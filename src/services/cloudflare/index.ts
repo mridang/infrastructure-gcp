@@ -5,7 +5,7 @@ import * as pulumi from '@pulumi/pulumi';
 
 import { defaultSubnet } from '../../vpc';
 
-const config = new pulumi.Config('cf');
+const config = new pulumi.Config('custom');
 
 /**
  * Cloudflare requires a secret and this should be specified when creating the

@@ -2,4 +2,5 @@ config:
   gcp:project: mridang-playground
   gcp:region: us-central1
   sampleapp:defaultZone: mrida.ng
+  custom:accountId: '779037e608ab1102679ef8b1bd499d49'
   custom:billingNotify: 'mridang.agarwalla@gmail.com'
