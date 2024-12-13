@@ -1,0 +1,4 @@
+name: core-infra
+runtime: nodejs
+description: A simple Pulumi project
+main: src/index.ts

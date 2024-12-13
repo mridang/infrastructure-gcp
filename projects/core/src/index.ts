@@ -3,4 +3,8 @@ import './cdn'
 import './services/cloudflare';
 import './billing';
 import './logging';
-import './services/sample';
+
+
+export { defaultRegion } from './region';
+export { defaultVPC } from './vpc';
+

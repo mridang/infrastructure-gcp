@@ -3,15 +3,15 @@ import * as docker from '@pulumi/docker';
 import * as pulumi from '@pulumi/pulumi';
 import * as cloudflare from '@pulumi/cloudflare';
 import * as path from 'node:path';
-import { defaultRegion } from '../../region';
 
+const coreStack = new pulumi.StackReference("mridang/core-infra/dev");
 const config = new pulumi.Config();
 
 /**
  * We create one registry per project where the containers will be pushed to.
  */
 const artifactRegistry = new gcp.artifactregistry.Repository('nodejs-repo', {
-  location: defaultRegion,
+  location: coreStack.getOutput("defaultRegion"),
   format: 'DOCKER',
   repositoryId: 'nodejs-repo',
   dockerConfig: {
@@ -33,29 +33,27 @@ const image = new docker.Image('my-node-app', {
   skipPush: false,
 });
 
+/**
+ * A service account is created for each project to ensure that we don't rely on
+ * any of the default service accounts.
+ */
 const serviceAccount = new gcp.serviceaccount.Account('cloud-run-sa', {
   accountId: 'cloud-run-sa',
   displayName: 'Cloud Run Service Account',
 });
-
-const projectId = gcp.config.project;
-
-if (!projectId) {
-  throw new Error('Project ID is not set in the Pulumi configuration.');
-}
 
 /**
  * A separate service account is created for each project which allows for
  * granular control over the permissions
  */
 new gcp.projects.IAMBinding('logging-binding', {
-  project: projectId,
+  project: gcp.config.project || '',
   role: 'roles/logging.logWriter', // Grant permission to write logs
   members: [pulumi.interpolate`serviceAccount:${serviceAccount.email}`], // Add the service account itself as a member
 });
 
 const cloudRunService = new gcp.cloudrunv2.Service('my-node-app-service', {
-  location: defaultRegion,
+  location: coreStack.getOutput("defaultRegion"),
   template: {
     serviceAccount: serviceAccount.email,
     timeout: '60s',
@@ -87,6 +85,7 @@ const cloudRunService = new gcp.cloudrunv2.Service('my-node-app-service', {
     ],
   },
   ingress: 'INGRESS_TRAFFIC_ALL', // Allow public access
+	deletionProtection: false,
 });
 
 new gcp.monitoring.UptimeCheckConfig('health-check', {
@@ -127,10 +126,10 @@ new gcp.cloudrunv2.ServiceIamMember('public-access', {
  * to the service.
  */
 new gcp.cloudrun.DomainMapping('my-domain-mapping', {
-  location: defaultRegion,
+  location: coreStack.getOutput("defaultRegion"),
   name: 'gcp.mrida.ng',
   metadata: {
-    namespace: projectId,
+    namespace: gcp.config.project || '',
   },
   spec: {
     routeName: cloudRunService.name,

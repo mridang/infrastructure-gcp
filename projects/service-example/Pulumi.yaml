@@ -1,0 +1,4 @@
+name: service-example
+runtime: nodejs
+description: A simple Pulumi project
+main: src/index.ts
