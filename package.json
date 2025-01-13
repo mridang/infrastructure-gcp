@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@mridang/eslint-defaults": "^1.0.0",
-    "@pulumi/cloudflare": "^5.43.1",
+    "@pulumi/cloudflare": "^5.47.0",
     "@pulumi/docker": "^4.5.7",
     "@pulumi/eslint-plugin": "^0.2.0",
     "@pulumi/gcp": "^8.10.0",
