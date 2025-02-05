@@ -4,14 +4,14 @@ import * as pulumi from '@pulumi/pulumi';
 import * as cloudflare from '@pulumi/cloudflare';
 import * as path from 'node:path';
 
-const coreStack = new pulumi.StackReference("mridang/core-infra/dev");
+const coreStack = new pulumi.StackReference('mridang/core-infra/dev');
 const config = new pulumi.Config();
 
 /**
  * We create one registry per project where the containers will be pushed to.
  */
 const artifactRegistry = new gcp.artifactregistry.Repository('nodejs-repo', {
-  location: coreStack.getOutput("defaultRegion"),
+  location: coreStack.getOutput('defaultRegion'),
   format: 'DOCKER',
   repositoryId: 'nodejs-repo',
   dockerConfig: {
@@ -53,7 +53,7 @@ new gcp.projects.IAMBinding('logging-binding', {
 });
 
 const cloudRunService = new gcp.cloudrunv2.Service('my-node-app-service', {
-  location: coreStack.getOutput("defaultRegion"),
+  location: coreStack.getOutput('defaultRegion'),
   template: {
     serviceAccount: serviceAccount.email,
     timeout: '60s',
@@ -85,7 +85,7 @@ const cloudRunService = new gcp.cloudrunv2.Service('my-node-app-service', {
     ],
   },
   ingress: 'INGRESS_TRAFFIC_ALL', // Allow public access
-	deletionProtection: false,
+  deletionProtection: false,
 });
 
 new gcp.monitoring.UptimeCheckConfig('health-check', {
@@ -126,7 +126,7 @@ new gcp.cloudrunv2.ServiceIamMember('public-access', {
  * to the service.
  */
 new gcp.cloudrun.DomainMapping('my-domain-mapping', {
-  location: coreStack.getOutput("defaultRegion"),
+  location: coreStack.getOutput('defaultRegion'),
   name: 'gcp.mrida.ng',
   metadata: {
     namespace: gcp.config.project || '',
