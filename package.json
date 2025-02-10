@@ -14,7 +14,7 @@
     "@pulumi/docker": "^4.5.7",
     "@pulumi/eslint-plugin": "^0.2.0",
     "@pulumi/gcp": "^8.10.0",
-    "@pulumi/pulumi": "^3.141.0",
+    "@pulumi/pulumi": "^3.149.0",
     "@pulumi/random": "^4.16.7",
     "@tsconfig/node20": "latest",
     "@types/node": "^20.3.2",
