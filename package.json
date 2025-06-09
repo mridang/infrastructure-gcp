@@ -3,8 +3,8 @@
   "scripts": {
     "build": "pulumi preview",
     "deploy": "pulumi up",
-    "format": "prettier --write \"**/*.{js,ts,jsx,tsx,json,css,md,html}\"",
-    "format:check": "prettier --check \"**/*.{js,ts,jsx,tsx,json,css,md,html}\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "lint": "npx eslint .",
     "lint:fix": "npx eslint . --fix"
   },
