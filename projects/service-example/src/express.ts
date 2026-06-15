@@ -21,7 +21,7 @@ app.get('/env', (req, res) => {
   res.json(process.env);
 });
 
-app.get('/crash', (req, res) => {
+app.get('/crash', () => {
   throw new Error('Intentional crash for testing error logging!');
 });
 
@@ -52,10 +52,9 @@ app.get('/connectivity', async (req, res) => {
     const body = await response.text();
 
     res.send(`URL: ${url}\nHeaders:\n${headers}\nResponse:\n${body}`);
-  } catch (error: any) {
-    res
-      .status(500)
-      .send({ error: `Failed to fetch from the URL: ${error.message}` });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    res.status(500).send({ error: `Failed to fetch from the URL: ${message}` });
   }
 });
 

@@ -91,7 +91,7 @@ const cfToken = new gcp.secretmanager.SecretVersion(
  * setup, a single instance will suffice, and therefore we always create it in zone
  * "a" of the default subnet.
  */
-const vm = new gcp.compute.Instance('etc-cloudflare', {
+new gcp.compute.Instance('etc-cloudflare', {
   allowStoppingForUpdate: true,
   machineType: 'f1-micro', // Free-tier eligible instance type
   zone: pulumi.interpolate`${defaultSubnet.region}-a`,
@@ -157,5 +157,3 @@ cloudflared tunnel --no-autoupdate --metrics=127.0.0.1:60123 run --token ${token
     ],
   },
 });
-
-export const argoTunnel = vm;
