@@ -35,7 +35,7 @@ const cloudflareTunnel = new cloudflare.ZeroTrustTunnelCloudflared(
 
 /**
  * This creates the tunnel configuration since we want to manage the tunnel
- * configuration from Pulumi rather than via the YAML
+ * configuration from Pulumi rather than via the YAML.
  */
 new cloudflare.ZeroTrustTunnelCloudflaredConfig('gcp-config', {
   accountId: config.require('accountId'),
@@ -60,7 +60,7 @@ new cloudflare.ZeroTrustTunnelCloudflaredConfig('gcp-config', {
 });
 
 /**
- * The secret for the cloudflare tunnel is stored in secrets manager
+ * The secret for the cloudflare tunnel is stored in secrets manager.
  */
 const secret = new gcp.secretmanager.Secret('cloudflare-tunnel-secret', {
   secretId: 'cloudflare-tunnel-secret-id',

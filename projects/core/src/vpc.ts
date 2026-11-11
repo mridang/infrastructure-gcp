@@ -11,7 +11,7 @@ const vpc = new gcp.compute.Network('default-vpc', {
 
 /**
  * Create a single default subnet inside the VPC. The purpose of this subnet is
- * to be a "regular subnet". https://cloud.google.com/vpc/docs/subnets#purpose
+ * to be a "regular subnet". Https://cloud.google.com/vpc/docs/subnets#purpose.
  */
 const subnet = new gcp.compute.Subnetwork('default-subnet', {
   ipCidrRange: '10.0.0.0/24',

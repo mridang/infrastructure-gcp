@@ -21,7 +21,7 @@ new cloudflare.ZoneSettingsOverride('default-zone', {
     alwaysUseHttps: 'on',
     automaticHttpsRewrites: 'on',
     brotli: 'on',
-    browserCacheTtl: 14400,
+    browserCacheTtl: 14_400,
     browserCheck: 'on',
     cacheLevel: 'aggressive',
     challengeTtl: 1800,

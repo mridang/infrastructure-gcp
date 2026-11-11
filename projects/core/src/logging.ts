@@ -10,7 +10,7 @@ import * as gcp from '@pulumi/gcp';
  * The buckets that are currently automatically created are “_Default” and
  * “_Required”.
  *
- * By default, the logging retention is 30 days and log analytics are disabled
+ * By default, the logging retention is 30 days and log analytics are disabled.
  */
 new gcp.logging.ProjectBucketConfig('basic', {
   project: gcp.config.project || '',

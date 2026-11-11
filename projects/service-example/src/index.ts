@@ -44,7 +44,7 @@ const serviceAccount = new gcp.serviceaccount.Account('cloud-run-sa', {
 
 /**
  * A separate service account is created for each project which allows for
- * granular control over the permissions
+ * granular control over the permissions.
  */
 new gcp.projects.IAMBinding('logging-binding', {
   project: gcp.config.project || '',
