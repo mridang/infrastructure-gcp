@@ -1,4 +1,19 @@
 {
   "type": "commonjs",
-  "name": "core"
+  "name": "core",
+  "description": "Core Pulumi infrastructure for Google Cloud: VPC, CDN, logging and billing",
+  "version": "0.0.0-development",
+  "license": "Apache-2.0",
+  "author": "Mridang Agarwalla",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mridang/infrastructure-gcp.git"
+  },
+  "sideEffects": true,
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src"
+  ]
 }

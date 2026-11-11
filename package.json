@@ -37,5 +37,6 @@
   },
   "overrides": {
     "@eslint/core": "1.2.1"
-  }
+  },
+  "description": "Pulumi infrastructure for Google Cloud, with Cloudflare DNS"
 }
