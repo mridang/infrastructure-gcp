@@ -1,3 +1,8 @@
-import * as gcp from '@pulumi/gcp';
+/**
+ * Resolves the default GCP region used by the core infrastructure.
+ * @file
+ */
 
-export const defaultRegion = gcp.config.region || 'us-central1';
+import { config as gcpConfig } from '@pulumi/gcp';
+
+export const defaultRegion = gcpConfig.region || 'us-central1';

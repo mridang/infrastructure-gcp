@@ -1,18 +1,26 @@
-import * as gcp from '@pulumi/gcp';
-import * as random from '@pulumi/random';
-import * as cloudflare from '@pulumi/cloudflare';
-import * as pulumi from '@pulumi/pulumi';
+/**
+ * Provisions the Cloudflare tunnel and the GCP instance that runs its daemon.
+ * @file
+ */
+
+import { compute, secretmanager } from '@pulumi/gcp';
+import { RandomPassword } from '@pulumi/random';
+import {
+  ZeroTrustTunnelCloudflared,
+  ZeroTrustTunnelCloudflaredConfig,
+} from '@pulumi/cloudflare';
+import { Config, interpolate } from '@pulumi/pulumi';
 
 import { defaultSubnet } from '../../vpc';
 
-const config = new pulumi.Config('custom');
+const config = new Config('custom');
 
 /**
  * Cloudflare requires a secret and this should be specified when creating the
  * tunnel. Rather than have any user intervention to specify the secret, we
  * simply generate it.
  */
-const tunnelSecret = new random.RandomPassword('tunnel-secret', {
+const tunnelSecret = new RandomPassword('tunnel-secret', {
   length: 32,
   special: false, // Cloudflare doesn't require special characters
 });
@@ -21,7 +29,7 @@ const tunnelSecret = new random.RandomPassword('tunnel-secret', {
  * The protect flag will ensure that the secret doesn't change
  * on every deploy.
  */
-const cloudflareTunnel = new cloudflare.ZeroTrustTunnelCloudflared(
+const cloudflareTunnel = new ZeroTrustTunnelCloudflared(
   'gcp',
   {
     accountId: config.require('accountId'),
@@ -37,7 +45,7 @@ const cloudflareTunnel = new cloudflare.ZeroTrustTunnelCloudflared(
  * This creates the tunnel configuration since we want to manage the tunnel
  * configuration from Pulumi rather than via the YAML.
  */
-new cloudflare.ZeroTrustTunnelCloudflaredConfig('gcp-config', {
+new ZeroTrustTunnelCloudflaredConfig('gcp-config', {
   accountId: config.require('accountId'),
   tunnelId: cloudflareTunnel.id,
   config: {
@@ -62,7 +70,7 @@ new cloudflare.ZeroTrustTunnelCloudflaredConfig('gcp-config', {
 /**
  * The secret for the cloudflare tunnel is stored in secrets manager.
  */
-const secret = new gcp.secretmanager.Secret('cloudflare-tunnel-secret', {
+const secret = new secretmanager.Secret('cloudflare-tunnel-secret', {
   secretId: 'cloudflare-tunnel-secret-id',
   replication: {
     auto: {},
@@ -75,7 +83,7 @@ const secret = new gcp.secretmanager.Secret('cloudflare-tunnel-secret', {
 /**
  * The stored secret is never rotated and must be rotated manually.
  */
-const cfToken = new gcp.secretmanager.SecretVersion(
+const cfToken = new secretmanager.SecretVersion(
   'cloudflare-tunnel-secret-version',
   {
     secret: secret.id,
@@ -91,10 +99,10 @@ const cfToken = new gcp.secretmanager.SecretVersion(
  * setup, a single instance will suffice, and therefore we always create it in zone
  * "a" of the default subnet.
  */
-new gcp.compute.Instance('etc-cloudflare', {
+new compute.Instance('etc-cloudflare', {
   allowStoppingForUpdate: true,
   machineType: 'f1-micro', // Free-tier eligible instance type
-  zone: pulumi.interpolate`${defaultSubnet.region}-a`,
+  zone: interpolate`${defaultSubnet.region}-a`,
   bootDisk: {
     initializeParams: {
       image: 'debian-cloud/debian-11', // Lightweight OS image
