@@ -36,6 +36,9 @@ const artifactRegistry = new artifactregistry.Repository('nodejs-repo', {
   },
 });
 
+// eslint-disable-next-line unicorn/prefer-module -- Pulumi runs this file as CommonJS (root tsconfig module=commonjs), where import.meta is a TS error, module.path is also flagged by prefer-module, and process.cwd() is not the script directory
+const projectDirectory = __dirname;
+
 /**
  * The image is built using the local Dockerfile and pushed to the remote
  * repository.
@@ -43,10 +46,8 @@ const artifactRegistry = new artifactregistry.Repository('nodejs-repo', {
 const image = new Image('my-node-app', {
   build: {
     platform: 'linux/amd64',
-    // eslint-disable-next-line unicorn/prefer-module -- the root tsconfig compiles to CommonJS, where import.meta is unavailable
-    context: __dirname,
-    // eslint-disable-next-line unicorn/prefer-module -- the root tsconfig compiles to CommonJS, where import.meta is unavailable
-    dockerfile: path.resolve(__dirname, 'Dockerfile'),
+    context: projectDirectory,
+    dockerfile: path.resolve(projectDirectory, 'Dockerfile'),
   },
   imageName: interpolate`${artifactRegistry.location}-docker.pkg.dev/${artifactRegistry.project}/${artifactRegistry.name}/my-node-app:latest`,
   skipPush: false,

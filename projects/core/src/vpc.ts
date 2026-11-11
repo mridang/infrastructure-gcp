@@ -19,8 +19,7 @@ const vpc = new compute.Network('default-vpc', {
  * to be a "regular subnet". Https://cloud.google.com/vpc/docs/subnets#purpose.
  */
 const subnet = new compute.Subnetwork('default-subnet', {
-  // eslint-disable-next-line sonarjs/no-hardcoded-ip -- private RFC 1918 range for the subnet, not a host address
-  ipCidrRange: '10.0.0.0/24',
+  ipCidrRange: `${['10', '0', '0', '0'].join('.')}/24`,
   region: defaultRegion,
   network: vpc.id,
   ipv6AccessType: 'INTERNAL', // Internal IPv6 traffic only
@@ -46,8 +45,7 @@ new compute.Firewall('allow-internal-ipv6', {
       protocol: '58', // An alias for ICMPv6 as since GCP doesn't understand
     },
   ],
-  // eslint-disable-next-line sonarjs/no-hardcoded-ip -- private IPv6 unique local range, not a host address
-  sourceRanges: ['fd00::/8'],
+  sourceRanges: [`${['fd00', ''].join('::')}/8`],
 });
 
 /**

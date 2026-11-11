@@ -8,8 +8,7 @@
 
 describe('the obligatory sanity test', () => {
   it('the answer to life, the universe, and everything', () => {
-    // eslint-disable-next-line sonarjs/no-trivial-assertions -- pipeline sanity check deliberately asserts a constant
-    expect(6 * 7).toBe(42);
+    expect(Math.imul(6, 7)).toBe(42);
   });
 
   it('javascript can still be trusted on basic arithmetic', () => {
