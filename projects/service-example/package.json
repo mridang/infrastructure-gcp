@@ -1,3 +1,19 @@
 {
-  "name": "service-example"
+  "type": "commonjs",
+  "name": "service-example",
+  "description": "Example Pulumi service deployed to Google Cloud Run",
+  "version": "0.0.0-development",
+  "license": "Apache-2.0",
+  "author": "Mridang Agarwalla",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mridang/infrastructure-gcp.git"
+  },
+  "sideEffects": true,
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src"
+  ]
 }

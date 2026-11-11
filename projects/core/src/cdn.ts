@@ -1,19 +1,22 @@
-import * as cloudflare from '@pulumi/cloudflare';
-import * as pulumi from '@pulumi/pulumi';
+/**
+ * Applies the default Cloudflare zone settings for the project.
+ * @file
+ */
 
-const config = new pulumi.Config();
+import { getZoneOutput, ZoneSettingsOverride } from '@pulumi/cloudflare';
+import { Config } from '@pulumi/pulumi';
+
+const config = new Config();
 
 /**
  * Configures the Cloudflare zone with sane defaults. Almost all settings are
  * at their default value barring the SSL-mode which needs to be set to
  * "strict".
  */
-new cloudflare.ZoneSettingsOverride('default-zone', {
-  zoneId: cloudflare
-    .getZone({
-      name: config.require('defaultZone'),
-    })
-    .then((zone) => zone.id),
+new ZoneSettingsOverride('default-zone', {
+  zoneId: getZoneOutput({
+    name: config.require('defaultZone'),
+  }).apply((zone) => zone.id),
   settings: {
     zeroRtt: 'on',
     //advanced_ddos: "on"
@@ -21,7 +24,7 @@ new cloudflare.ZoneSettingsOverride('default-zone', {
     alwaysUseHttps: 'on',
     automaticHttpsRewrites: 'on',
     brotli: 'on',
-    browserCacheTtl: 14400,
+    browserCacheTtl: 14_400,
     browserCheck: 'on',
     cacheLevel: 'aggressive',
     challengeTtl: 1800,
