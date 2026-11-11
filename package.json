@@ -13,7 +13,7 @@
   "devDependencies": {
     "@eslint/compat": "^2.1.1",
     "@google-cloud/logging-winston": "^7.3.0",
-    "@mridang/eslint-defaults": "file:../../pack/mridang-eslint-defaults-2.0.1.tgz",
+    "@mridang/eslint-defaults": "^2.1.0",
     "@pulumi/cloudflare": "^5.43.1",
     "@pulumi/docker": "^4.5.7",
     "@pulumi/gcp": "^8.10.0",
