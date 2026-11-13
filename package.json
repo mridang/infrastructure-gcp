@@ -6,8 +6,8 @@
     "deploy": "pulumi up",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "npx eslint .",
-    "lint:fix": "npx eslint . --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "jest --verbose --config=jest.config.mjs"
   },
   "devDependencies": {
