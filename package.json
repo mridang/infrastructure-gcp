@@ -8,7 +8,8 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "jest --verbose --config=jest.config.mjs"
+    "test": "jest --verbose --config=jest.config.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@eslint/compat": "^2.1.1",
