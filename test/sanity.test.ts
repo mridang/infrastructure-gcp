@@ -3,6 +3,8 @@
  * @file
  */
 
+import { describe, expect, it } from '@jest/globals';
+
 // Sanity check — proves the jest pipeline actually executes a test file here.
 // Reach this far, the canonical jest setup is wired correctly.
 
