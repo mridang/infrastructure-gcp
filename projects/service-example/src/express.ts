@@ -3,6 +3,7 @@
  * @file
  */
 
+// eslint-disable-next-line e18e/ban-dependencies -- h3 is a different framework with a different API, so swapping would rewrite the Cloud Run example app rather than keep its behaviour
 import express from 'express';
 import { LoggingWinston } from '@google-cloud/logging-winston';
 import winston from 'winston';
@@ -57,9 +58,10 @@ app.get('/connectivity', async (_req, res) => {
   try {
     // eslint-disable-next-line n/no-unsupported-features/node-builtins -- package.json declares no engines, so the rule assumes Node 16 where fetch is missing; the config is off limits and node:http would not follow redirects like fetch does
     const response = await fetch(url);
-    const headers = [...response.headers.entries()]
-      .map(([key, value]) => `${key}: ${value}`)
-      .join('\n');
+    const headers = Array.from(
+      response.headers.entries(),
+      ([key, value]) => `${key}: ${value}`,
+    ).join('\n');
     const body = await response.text();
 
     res.send(`URL: ${url}\nHeaders:\n${headers}\nResponse:\n${body}`);
