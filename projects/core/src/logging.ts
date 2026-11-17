@@ -3,7 +3,7 @@
  * @file
  */
 
-import { config as gcpConfig, logging } from '@pulumi/gcp';
+import { config, logging } from '@pulumi/gcp';
 
 /**
  * Logging buckets are automatically created for a given folder, project,
@@ -17,8 +17,9 @@ import { config as gcpConfig, logging } from '@pulumi/gcp';
  *
  * By default, the logging retention is 30 days and log analytics are disabled.
  */
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new logging.ProjectBucketConfig('basic', {
-  project: gcpConfig.project || '',
+  project: config.project || '',
   location: 'global',
   retentionDays: 14,
   enableAnalytics: true,

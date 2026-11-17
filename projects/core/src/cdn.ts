@@ -13,6 +13,7 @@ const config = new Config();
  * at their default value barring the SSL-mode which needs to be set to
  * "strict".
  */
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new ZoneSettingsOverride('default-zone', {
   zoneId: getZoneOutput({
     name: config.require('defaultZone'),

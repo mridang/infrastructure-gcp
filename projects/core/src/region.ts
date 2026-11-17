@@ -3,6 +3,6 @@
  * @file
  */
 
-import { config as gcpConfig } from '@pulumi/gcp';
+import { config } from '@pulumi/gcp';
 
-export const defaultRegion = gcpConfig.region || 'us-central1';
+export const defaultRegion = config.region || 'us-central1';

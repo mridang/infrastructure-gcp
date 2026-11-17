@@ -3,11 +3,11 @@
  * @file
  */
 
-// eslint-disable-next-line e18e/ban-dependencies -- h3 is a different framework with a different API, so swapping would rewrite the Cloud Run example app rather than keep its behaviour
+import { randomInt } from 'node:crypto';
+// eslint-disable-next-line e18e/ban-dependencies -- express is the framework of this example service; replacing it would change behaviour
 import express from 'express';
 import { LoggingWinston } from '@google-cloud/logging-winston';
 import winston from 'winston';
-import { randomInt } from 'node:crypto';
 
 const app = express();
 app.disable('x-powered-by');

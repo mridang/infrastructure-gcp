@@ -3,6 +3,7 @@
  * @file
  */
 
+import path from 'node:path';
 import {
   artifactregistry,
   cloudrun,
@@ -14,12 +15,7 @@ import {
 } from '@pulumi/gcp';
 import { Image } from '@pulumi/docker';
 import { Config, interpolate, StackReference } from '@pulumi/pulumi';
-import {
-  getZoneOutput,
-  PageRule,
-  Record as CloudflareRecord,
-} from '@pulumi/cloudflare';
-import path from 'node:path';
+import { getZoneOutput, PageRule, Record } from '@pulumi/cloudflare';
 
 const coreStack = new StackReference('mridang/core-infra/dev');
 const config = new Config();
@@ -66,6 +62,7 @@ const serviceAccount = new serviceaccount.Account('cloud-run-sa', {
  * A separate service account is created for each project which allows for
  * granular control over the permissions.
  */
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new projects.IAMBinding('logging-binding', {
   project: gcpConfig.project || '',
   role: 'roles/logging.logWriter', // Grant permission to write logs
@@ -108,6 +105,7 @@ const cloudRunService = new cloudrunv2.Service('my-node-app-service', {
   deletionProtection: false,
 });
 
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new monitoring.UptimeCheckConfig('health-check', {
   displayName: 'Health Check for Cloud Run Service',
   monitoredResource: {
@@ -133,6 +131,7 @@ new monitoring.UptimeCheckConfig('health-check', {
  * Without this, the service would get deployed but no one would be able to
  * access it.
  */
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new cloudrunv2.ServiceIamMember('public-access', {
   name: cloudRunService.name,
   location: cloudRunService.location,
@@ -145,6 +144,7 @@ new cloudrunv2.ServiceIamMember('public-access', {
  * these services via a CDN, therefore it is necessary to add a domain mapping
  * to the service.
  */
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new cloudrun.DomainMapping('my-domain-mapping', {
   location: coreStack.getOutput('defaultRegion'),
   name: 'gcp.mrida.ng',
@@ -168,6 +168,7 @@ new cloudrun.DomainMapping('my-domain-mapping', {
  * Cloudflare interferes in that process in many different ways, and you have
  * to basically disable all Cloudflare features for that path.
  */
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new PageRule('acme-challenge-bypass', {
   zoneId: getZoneOutput({
     name: config.require('defaultZone'),
@@ -187,7 +188,8 @@ new PageRule('acme-challenge-bypass', {
  * To ensure that Cloudflare forwards all the traffic over to this service, we
  * create a CNAME record that points to the service.
  */
-new CloudflareRecord('cloud-run-cname', {
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
+new Record('cloud-run-cname', {
   zoneId: getZoneOutput({
     name: config.require('defaultZone'),
   }).apply((zone) => zone.id),

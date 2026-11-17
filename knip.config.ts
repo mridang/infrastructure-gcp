@@ -6,6 +6,6 @@ export default {
     'projects/*/Pulumi.yaml',
   ],
   ignore: ['knip.config.ts'],
-  ignoreDependencies: [/^@semantic-release\//],
+  ignoreDependencies: [/^@semantic-release\//u],
   ignoreBinaries: ['pulumi'],
 };
