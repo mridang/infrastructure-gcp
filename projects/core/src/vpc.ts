@@ -30,6 +30,7 @@ const subnet = new compute.Subnetwork('default-subnet', {
  * Firewall rule to allow internal ipv6 traffic between services and nodes inside
  * the VPC.
  */
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new compute.Firewall('allow-internal-ipv6', {
   network: vpc.id,
   allows: [
@@ -62,6 +63,7 @@ const cloudRouter = new compute.Router('default-router', {
  * assigned external IP addresses which both costs and increases the surface area
  * of an attack.
  */
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new compute.RouterNat('default-nat', {
   router: cloudRouter.name,
   region: defaultRegion,

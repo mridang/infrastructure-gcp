@@ -8,6 +8,7 @@ import { Config } from '@pulumi/pulumi';
 
 const config = new Config('custom');
 
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new monitoring.NotificationChannel('budget-alert-channel', {
   displayName: 'Budget Alert Channel',
   type: 'email',

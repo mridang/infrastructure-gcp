@@ -45,6 +45,7 @@ const cloudflareTunnel = new ZeroTrustTunnelCloudflared(
  * This creates the tunnel configuration since we want to manage the tunnel
  * configuration from Pulumi rather than via the YAML.
  */
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new ZeroTrustTunnelCloudflaredConfig('gcp-config', {
   accountId: config.require('accountId'),
   tunnelId: cloudflareTunnel.id,
@@ -99,6 +100,7 @@ const cfToken = new secretmanager.SecretVersion(
  * setup, a single instance will suffice, and therefore we always create it in zone
  * "a" of the default subnet.
  */
+// eslint-disable-next-line no-new -- a Pulumi resource registers itself on construction
 new compute.Instance('etc-cloudflare', {
   allowStoppingForUpdate: true,
   machineType: 'f1-micro', // Free-tier eligible instance type
