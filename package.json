@@ -15,7 +15,7 @@
     "@eslint/compat": "^2.1.1",
     "@google-cloud/logging-winston": "^7.3.0",
     "@jest/globals": "^30.5.2",
-    "@mridang/eslint-defaults": "^2.4.0",
+    "@mridang/eslint-defaults": "^2.5.0",
     "@pulumi/cloudflare": "^5.43.1",
     "@pulumi/docker": "^4.5.7",
     "@pulumi/gcp": "^8.10.0",
